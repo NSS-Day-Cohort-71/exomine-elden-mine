@@ -1,33 +1,44 @@
-// create export component button rendering html to the DOM
+import {
+  //Import the functions from TransientState.js
+  getTransientState,
+  purchaseMineral,
+  clearTransientState,
+} from "./TransientState.js";
+
+//Define the PurchaseButton component which returns purchase button HTML.
 export const PurchaseButton = () => {
   return `
-        <button id="purchaseButton">Purchase Button</button>
-    `;
+    <button id="purchaseButton">Purchase Combo</button>
+  `;
 };
-// create an event listener for when the button is pressed to invoke transient state to permanent state function
 
+//An event listener for click events.
 document.addEventListener("click", async (event) => {
+  //Check if the clicked element has the "purchaseButton" id.
   if (event.target.id === "purchaseButton") {
+    //Get current transient state.
     const state = getTransientState();
 
     if (
-      state.selectedFacility &&
-      state.selectedMineral &&
-      state.selectedGovernor
+      //Check if the required state properties are set.
+      state.facilityId &&
+      state.governorId &&
+      state.colonyId &&
+      state.mineralId.length > 0
     ) {
-      const response = await fetch("http://localhost:8088/colonyMinerals");
-      const colonyMinerals = await response.json();
-
-      const governorResponse = await fetch(
-        `http://localhost:8088/governors/${state.selectedGovernor}`
-      );
+      // Iterate over each selected mineral ID.
+      for (const mineralId of state.mineralId) {
+        await purchaseMineral({
+          colonyId: state.colonyId,
+          mineralId: mineralId,
+          quantity: 1, // Placeholder
+        });
+      }
+      // Clear the transient state after processing the purchase.
+      clearTransientState();
+    } else {
+      //alert if the required properties are not set.
+      alert("Please select a facility, governor, and minerals.");
     }
-    const governor = await governorResponse.json();
-
-    const colonyMineral = colonyMinerals.find(
-      (cm) =>
-        cm.colonyId === governor.colonyId &&
-        cm.mineralId === state.selectedMineral
-    );
   }
 });

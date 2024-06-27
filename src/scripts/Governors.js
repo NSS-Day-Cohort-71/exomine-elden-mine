@@ -1,5 +1,6 @@
 // import getGovernors from managers folder
-import { getGovernors } from "./src/managers/getGovernors.js"
+
+import { getGovernors } from "../managers/getGovernors.js"
 
 // create export async function to display all governors
 export const governorChoices = async () => {
@@ -23,6 +24,8 @@ export const governorChoices = async () => {
         document.getElementById('governors')
         document.addEventListener("change", handleGovChange)
 
+    return divStringArray;
+
 // fetch all governors
 
 // map governors and add html template strings, then join
@@ -32,4 +35,11 @@ export const governorChoices = async () => {
 // create handleTargetGovernorChange function
 
 // create event listener to invoke the handleTargetGovernorChange
+}
+
+const handleGovChange = (changeEvent) => {
+    if (changeEvent.target.name === 'governor') {
+        const convertedToInteger = parseInt(changeEvent.target.value)
+        setGovId
+    }
 }

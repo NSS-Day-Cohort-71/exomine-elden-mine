@@ -31,24 +31,7 @@ export async function displayAllColonies() {
 
 // Function to handle governor change
 async function handleTargetGovernorChange(event) {
-    const selectElement = event.target.value;
-    const colonyId = selectElement.closest('.colony').dataset.colonyId;
-    const newGovernorId = selectElement.value;
-
-    await fetch(`/api/colonies/${colonyId}/governor`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ governorId: newGovernorId }),
-    });
-
-    console.log(`Governor for colony ${colonyId} changed to ${newGovernorId}`);
 }
-
-
-
-
 
 // create export async function to display all colonies
 

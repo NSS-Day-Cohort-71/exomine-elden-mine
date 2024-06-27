@@ -1,6 +1,7 @@
 // import getGovernors from managers folder
 
 import { getGovernors } from "../managers/getGovernors.js"
+import { setGovernor } from "./TransientState.js"
 
 // create export async function to display all governors
 export const governorChoices = async () => {
@@ -40,6 +41,6 @@ export const governorChoices = async () => {
 const handleGovChange = (changeEvent) => {
     if (changeEvent.target.name === 'governor') {
         const convertedToInteger = parseInt(changeEvent.target.value)
-        setGovId
+        setGovernor(convertedToInteger)
     }
 }

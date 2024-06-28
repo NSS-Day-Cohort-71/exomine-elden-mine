@@ -1,8 +1,8 @@
 import {
   //Import the functions from TransientState.js
-  getTransientState,
+  // getTransientState,
   purchaseMineral,
-  clearTransientState,
+  // clearTransientState,
 } from "./TransientState.js";
 
 //Define the PurchaseButton component which returns purchase button HTML.

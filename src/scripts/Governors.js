@@ -23,9 +23,6 @@ export const governorChoices = async () => {
     </div>
 `;
 
-  document.body.innerHTML = divStringArray;
-
-  document.getElementById("governors");
   document.addEventListener("change", handleGovChange);
 
   return divStringArray;

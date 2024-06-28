@@ -1,5 +1,5 @@
-import { getMinerals } from "../managers/getMinerals";
-import { setMineral } from "./TransientState";
+import { getMinerals } from "../managers/getMinerals.js";
+import { setMineral } from "./TransientState.js";
 
 // render the minerals available for when a governor is selected (maybe an exported function for the governors module
 export const renderGovernorMinerals = async (governor) => {

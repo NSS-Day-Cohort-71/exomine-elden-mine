@@ -13,6 +13,8 @@ export const Form = async () => {
       
       ${await ColonySelector()}
       ${await facilityChoices()}
+      <div id="facilityMinerals">
+      </div>
       ${PurchaseButton()}
     `;
 };

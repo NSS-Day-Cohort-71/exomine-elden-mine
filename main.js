@@ -1,9 +1,16 @@
 // import statements
+import { Form } from "./src/scripts/form.js";
 
 // grab container from the DOM
+const render = async () => {
+  const containerElement = document.querySelector("#container");
 
-// create async function for rendering the html to the element above
+  // Get the HTML content of the Form component
+  const formHtml = await Form();
 
-// invoke the render function
+  // Set the container element's innerHTML to include the formHtml
+  containerElement.innerHTML = formHtml;
+};
 
-// create event listener for re-rendering the page when transient state is converted into api data
+// Invoke the render function when the DOM content is loaded
+document.addEventListener("DOMContentLoaded", render);

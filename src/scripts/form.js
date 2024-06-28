@@ -1,8 +1,6 @@
 // import statements
-import { governorChoices } from "./Governors.js";
-import { ColonySelector } from "./Colonies.js";
-import { facilityChoices } from "./Facilities.js";
-import { PurchaseButton } from "./PurchaseButton.js";
+import { governorChoices } from "../scripts/Governors.js";
+import { facilityChoices } from "../scripts/Facilities.js";
 
 // Export async function for rendering the HTML
 export const Form = async () => {
@@ -11,14 +9,10 @@ export const Form = async () => {
   const coloniesDisplay = await ColonySelector();
 
   return `
-      <div id="sidebar">
-          <div id="governorDropdownContainer">${governorDropdown}</div>
-          <div id="facilityDropdownContainer">${facilityDropdown}</div>
-      </div>
-      <div id="content">
-          <div id="coloniesContainer">${coloniesDisplay}</div>
-          <div id="facilityMinerals"></div>
-          ${PurchaseButton()}
-      </div>
+      ${await governorChoices()}
+      ${await facilityChoices()} 
+      ${await ColonySelector()} //Placeholder
+      ${await MineralSelector()} //Placeholder
+      ${PurchaseButton()}
     `;
 };

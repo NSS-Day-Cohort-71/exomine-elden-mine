@@ -1,38 +1,44 @@
-import { getFacilities } from "../managers/getFacilities.js";
-import { setFacility } from "./TransientState.js";
-import { renderFacilityMinerals } from "./Minerals.js";
+// import getFacilities from managers folder
+import { getFacilities } from "../managers/getFacilities.js"
+import { setFacility } from "./TransientState.js"
 
+// create export async function to display all facilities
 export const facilityChoices = async () => {
-  const facilities = await getFacilities();
-  let optionsHTML = facilities
-    .map((facility) => {
-      return `<option value="${facility.id}">${facility.name}</option>`;
-    })
-    .join("");
+// fetch all facilities    
+    const facilities = await getFacilities()
 
-  const divStringArray = `<div>
+// map facilities and add html template strings, then join
+    let optionsHTML = facilities.map(
+        (facility) => {
+            return `<option value="${facility.id}">${facility.name}</option>`
+        }).join("")
+
+// create dropdown menu for the facilities
+        const divStringArray = 
+            `<div>
                 <label for="facilities">Choose a facility</label>
-                <select id="facilities" name="facilities">
+                <select id="governors" name="governors">
                     ${optionsHTML}
                 </select>
-            </div>`;
+            </div>`
 
-  document.addEventListener("change", handleFacilityChange);
-  return divStringArray;
-};
+            document.body.innerHTML = divStringArray
 
-const handleFacilityChange = async (changeEvent) => {
-  if (changeEvent.target.name === "facilities") {
-    const facilityId = parseInt(changeEvent.target.value);
-    setFacility(facilityId);
+// create event listener to invoke the handleTargetGovernorChange
+            document.getElementById('facilities')
+            document.addEventListener("change", handleFacilityChange)
 
-    // depending on dropdown choice, display facility minerals in a separate div as radio button
-    const selectedFacility = (await getFacilities()).find(
-      (facility) => facility.id === facilityId
-    );
-    if (selectedFacility) {
-      const mineralsHTML = await renderFacilityMinerals(selectedFacility);
-      document.getElementById("facilityMinerals").innerHTML = mineralsHTML;
+            return divStringArray
+}
+
+// create handleTargetGovernorChange function
+const handleFacilityChange = (changeEvent) => {
+    if (changeEvent.target.name === 'governor') {
+        const convertedToInteger = parseInt(changeEvent.target.value)
+        setFacility(convertedToInteger)
     }
-  }
-};
+}
+
+
+// depending on dropdown choice, display facility minerals in a separate div as radio buttons
+

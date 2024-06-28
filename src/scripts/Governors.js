@@ -2,6 +2,7 @@
 
 import { getGovernors } from "../managers/getGovernors.js";
 import { setGovernor } from "./TransientState.js";
+import { renderGovernorMinerals } from "./Minerals.js";
 
 // create export async function to display all governors
 export const governorChoices = async () => {
@@ -24,26 +25,23 @@ export const governorChoices = async () => {
 
   document.body.innerHTML = divStringArray;
 
-  document
-    .getElementById("governors")
-    .addEventListener("change", handleGovChange);
+  document.getElementById("governors");
+  document.addEventListener("change", handleGovChange);
 
   return divStringArray;
-
-  // fetch all governors
-
-  // map governors and add html template strings, then join
-  // create dropdown menu for the governors
-  // when a governor is chosen, display all of the related-colony's minerals
-
-  // create handleTargetGovernorChange function
-
-  // create event listener to invoke the handleTargetGovernorChange
 };
 
-const handleGovChange = (changeEvent) => {
+const handleGovChange = async (changeEvent) => {
   if (changeEvent.target.name === "governor") {
-    const convertedToInteger = parseInt(changeEvent.target.value);
-    setGovernor(convertedToInteger);
+    const governorId = parseInt(changeEvent.target.value);
+    setGovernor(governorId);
+
+    const selectedGovernor = (await getGovernors()).find(
+      (gov) => gov.id === governorId
+    );
+    if (selectedGovernor) {
+      const mineralsHTML = await renderGovernorMinerals(selectedGovernor);
+      document.getElementById("governorMinerals").innerHTML = mineralsHTML;
+    }
   }
 };

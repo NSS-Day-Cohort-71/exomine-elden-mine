@@ -1,20 +1,18 @@
 import { getFacilities } from "../managers/getFacilities.js";
 import { setFacility } from "./TransientState.js";
-// create export async function to display all facilities
+import { renderFacilityMinerals } from "./Minerals.js";
+
 export const facilityChoices = async () => {
-  // fetch all facilities
   const facilities = await getFacilities();
-  // map facilities and add html template strings, then join
   let optionsHTML = facilities
     .map((facility) => {
       return `<option value="${facility.id}">${facility.name}</option>`;
     })
     .join("");
 
-  // create dropdown menu for the facilities to be used in form.js later. just the html code, not the divStringArray variable -- abdul
   const divStringArray = `<div>
                 <label for="facilities">Choose a facility</label>
-                <select id="governors" name="governors">
+                <select id="facilities" name="facilities">
                     ${optionsHTML}
                 </select>
             </div>`;
@@ -22,11 +20,19 @@ export const facilityChoices = async () => {
   document.addEventListener("change", handleFacilityChange);
   return divStringArray;
 };
-// create handleTargetGovernorChange function
-const handleFacilityChange = (changeEvent) => {
-  if (changeEvent.target.name === "governor") {
-    const convertedToInteger = parseInt(changeEvent.target.value);
-    setFacility(convertedToInteger);
+
+const handleFacilityChange = async (changeEvent) => {
+  if (changeEvent.target.name === "facilities") {
+    const facilityId = parseInt(changeEvent.target.value);
+    setFacility(facilityId);
+
+    // depending on dropdown choice, display facility minerals in a separate div as radio button
+    const selectedFacility = (await getFacilities()).find(
+      (facility) => facility.id === facilityId
+    );
+    if (selectedFacility) {
+      const mineralsHTML = await renderFacilityMinerals(selectedFacility);
+      document.getElementById("facilityMinerals").innerHTML = mineralsHTML;
+    }
   }
 };
-// depending on dropdown choice, display facility minerals in a separate div as radio button

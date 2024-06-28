@@ -2,12 +2,11 @@ import { Form } from "./src/scripts/form.js";
 import { governorChoices } from "./src/scripts/Governors.js";
 
 const render = async () => {
-  // grab container from the DOM
   const containerElement = document.querySelector("#container");
-  // Get the HTML content of the Form component
-  const formHtml = await Form();
+  const coloniesContainer = document.querySelector("#colonies-container");
 
-  // Set the container element's innerHTML to include the formHtml
+  // Render form with governors dropdown
+  const formHtml = await Form();
   containerElement.innerHTML = formHtml;
 
   // Initialize the dropdown and colonies after rendering the form

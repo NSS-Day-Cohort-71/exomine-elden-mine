@@ -1,5 +1,13 @@
 // import statements
+import { governorChoices } from "../scripts/Governors.js";
 
-// export create async function for rendering the html to the element above to send to main.js
-
-// create structure of the form inside of this element
+// Export async function for rendering the HTML
+export const Form = async () => {
+  return `
+      ${await governorChoices()}
+      ${await FacilitySelector()} //Placeholder 
+      ${await ColonySelector()} //Placeholder
+      ${await MineralSelector()} //Placeholder
+      ${PurchaseButton()}
+    `;
+};

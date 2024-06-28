@@ -1,7 +1,8 @@
 import { getColonies } from '../managers/getColonies.js';
 import { getGovernors } from '../managers/getGovernors.js';
+
 // Function to display all colonies
-export async function coloniesSelector() {
+export async function ColonySelector() {
     const colonies = await getColonies();
     const governors = await getGovernors();
 
@@ -21,7 +22,7 @@ export async function coloniesSelector() {
         `;
     }).join('');
 
-    document.getElementById('coloniesContainer').innerHTML = coloniesHtml;
+    document.body.innerHTML = coloniesHtml;
 
     // Attach event listeners to governor select elements
     document.querySelectorAll('.governor-select').forEach(select => {
@@ -46,10 +47,10 @@ async function handleTargetGovernorChange(event) {
     console.log(`Governor for colony ${colonyId} changed to ${newGovernorId}`);
 
     // Optionally update the UI if needed
-    await coloniesSelector(); // Re-display colonies to reflect the change
+    await ColonySelector(); // Re-display colonies to reflect the change
 }
 
 // Ensure the DOM is fully loaded before running the script
 document.addEventListener('DOMContentLoaded', () => {
-    coloniesSelector();
+    ColonySelector();
 });

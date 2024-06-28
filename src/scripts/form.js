@@ -1,5 +1,6 @@
 // import statements
 import { governorChoices } from "../scripts/Governors.js";
+import { ColonySelector } from "./Colonies.js";
 
 // Export async function for rendering the HTML
 export const Form = async () => {

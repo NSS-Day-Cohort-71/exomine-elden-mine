@@ -1,6 +1,5 @@
 import { Form } from "./src/scripts/form.js";
-import { ColonySelector } from "./src/scripts/Colonies.js";
-import { PurchaseButton } from "./src/scripts/PurchaseButton.js";
+import { governorChoices } from "./src/scripts/Governors.js";
 
 const render = async () => {
   const containerElement = document.querySelector("#container");
@@ -10,13 +9,13 @@ const render = async () => {
   const formHtml = await Form();
   containerElement.innerHTML = formHtml;
 
-  // Render colonies selector
-  const coloniesHtml = await ColonySelector();
-  coloniesContainer.innerHTML = coloniesHtml;
-
-  // Attach Purchase Combo button
-  const purchaseButtonHtml = PurchaseButton();
-  containerElement.insertAdjacentHTML("beforeend", purchaseButtonHtml);
+  // Initialize the dropdown and colonies after rendering the form
+  await initializeComponents();
 };
 
+const initializeComponents = async () => {
+  await governorChoices(); // Initialize governor dropdown
+};
+
+// Invoke the render function when the DOM content is loaded
 document.addEventListener("DOMContentLoaded", render);

@@ -8,7 +8,7 @@ import {
 //Define the PurchaseButton component which returns purchase button HTML.
 export const PurchaseButton = () => {
   return `
-    <button id="purchaseButton">Purchase Combo</button>
+    <button id="purchaseButton">Purchase Mineral</button>
   `;
 };
 

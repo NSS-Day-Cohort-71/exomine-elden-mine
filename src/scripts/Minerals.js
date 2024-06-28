@@ -1,4 +1,3 @@
-import { getFacilities } from "../managers/getFacilities.js";
 import { getFacilityMinerals, getMinerals } from "../managers/getMinerals.js";
 import { setMineral } from "./TransientState.js";
 
@@ -21,7 +20,6 @@ export const renderGovernorMinerals = async (governor) => {
 
 // render the minerals available for when a facility is selected (maybe an exported function for the facilities module)
 export const renderFacilityMinerals = async (facility) => {
-  // const minerals = await getMinerals();
   const facilityMinerals = await getFacilityMinerals();
 
   let html = `

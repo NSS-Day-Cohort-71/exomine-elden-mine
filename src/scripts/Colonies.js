@@ -1,64 +1,42 @@
-import { getColonies } from "../managers/getColonies.js";
-import { getGovernors } from "../managers/getGovernors.js";
+import { getColonies } from '../managers/getColonies.js';
+import { getGovernors } from '../managers/getGovernors.js';
 
-// Function to display all colonies
-export async function ColonySelector() {
-  const colonies = await getColonies();
-  const governors = await getGovernors();
+// Function to display the colony based on the selected governor
+export async function ColonySelector(governorId) {
+    if (!governorId) {
+        console.error('No governor ID provided.');
+        return '<p>No colony found for the selected governor.</p>';
+    }
 
-  const coloniesHtml = colonies
-    .map((colony) => {
-      const governor = governors.find((gov) => gov.colonyId === colony.id);
-      return `
-            <div class="colony" data-colony-id="${colony.id}">
-                <h3>${colony.name}</h3>
-                <p>Governor: ${governor ? governor.name : "No Governor"}</p>
-                <label for="governorSelect${colony.id}">Change Governor:</label>
-                <select id="governorSelect${colony.id}" class="governor-select">
-                    ${governors
-                      .map(
-                        (gov) => `
-                        <option value="${gov.id}" ${
-                          gov.colonyId === colony.id ? "selected" : ""
-                        }>${gov.name}</option>
-                    `
-                      )
-                      .join("")}
-                </select>
-            </div>
-        `;
-    })
-    .join("");
+    const colonies = await getColonies();
+    const governors = await getGovernors();
 
-  // Attach event listeners to governor select elements
-  document.querySelectorAll(".governor-select").forEach((select) => {
-    select.addEventListener("change", handleTargetGovernorChange);
-  });
+    const selectedGovernor = governors.find(gov => gov.id === governorId);
+    if (!selectedGovernor) {
+        console.error('No governor found with ID:', governorId);
+        return '<p>No colony found for the selected governor.</p>';
+    }
 
-  return coloniesHtml;
+    const colony = colonies.find(col => col.id === selectedGovernor.colonyId);
+    const colonyHtml = colony ? `
+        <div class="colony" data-colony-id="${colony.id}">
+            <h3>${colony.name}</h3>
+            <p>Governor: ${selectedGovernor.name}</p>
+        </div>
+    ` : '<p>No colony found for the selected governor.</p>';
+
+    return colonyHtml;
 }
 
-// Function to handle governor change
-async function handleTargetGovernorChange(event) {
-  const selectElement = event.target;
-  const colonyId = selectElement.closest(".colony").dataset.colonyId;
-  const newGovernorId = selectElement.value;
-
-  await fetch(`/api/colonies/${colonyId}/governor`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ governorId: newGovernorId }),
-  });
-
-  console.log(`Governor for colony ${colonyId} changed to ${newGovernorId}`);
-
-  // Optionally update the UI if needed
-  await ColonySelector(); // Re-display colonies to reflect the change
-}
-
-// Ensure the DOM is fully loaded before running the script
-document.addEventListener("DOMContentLoaded", () => {
-  ColonySelector();
+// Listen for governor selection changes
+document.addEventListener('governorSelected', async (event) => {
+    const governorId = event.detail.governorId;
+    console.log('Governor selected with ID:', governorId);
+    const colonyHtml = await ColonySelector(governorId);
+    const coloniesContainer = document.getElementById('coloniesContainer');
+    if (coloniesContainer) {
+        coloniesContainer.innerHTML = colonyHtml;
+    } else {
+        console.error('Element with ID coloniesContainer not found.');
+    }
 });

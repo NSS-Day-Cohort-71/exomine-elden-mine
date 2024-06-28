@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Adjust to align items to the top */
+    align-items: center;
+    height: 100vh;
+    overflow: hidden; /* Prevent body from scrolling */
+}
+
+header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.logo {
+    width: 10%; /* 60% smaller */
+}
+
+#container {
+    display: flex;
+    flex: 1;
+    max-width: 1200px;
+    width: 100%;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+#sidebar {
+    flex: 1;
+    background-color: #e8f5e9; /* Light green complementary color */
+    color: #333333;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-right: 1px solid #cccccc;
+    overflow-y: auto; /* Make sidebar scrollable if content overflows */
+}
+
+#content {
+    flex: 2;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: #ffffff;
+    overflow-y: auto; /* Make content area scrollable if content overflows */
+}
+
+h3 {
+    font-size: 24px;
+    color: #333333;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+label {
+    font-size: 16px;
+    color: #333333;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    background-color: #ffffff;
+    color: #333333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.colony {
+    padding: 20px;
+    background-color: #ffebee; /* Light red complementary color */
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.colony h3 {
+    margin-top: 0;
+    color: #333333;
+}
+
+.colony p {
+    font-size: 18px;
+    color: #555555;
+}
+
+#governorMinerals {
+    padding: 20px;
+    background-color: #fffde7; /* Light yellow complementary color */
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+    align-self: flex-start;
+}
+
+button:hover {
+    background-color: #0056b3;
+}

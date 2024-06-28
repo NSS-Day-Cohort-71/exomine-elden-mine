@@ -30,7 +30,8 @@ export async function displayAllColonies() {
 }
 
 // Function to handle governor change
-async function handleTargetGovernorChange(event) {
+async function handleTargetGovernorChange(changeEvent) {
+
 }
 
 // create export async function to display all colonies

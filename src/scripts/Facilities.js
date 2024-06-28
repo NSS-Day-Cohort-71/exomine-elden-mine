@@ -10,16 +10,15 @@ export const facilityChoices = async () => {
       return `<option value="${facility.id}">${facility.name}</option>`;
     })
     .join("");
-  // create dropdown menu for the facilities
+
+  // create dropdown menu for the facilities to be used in form.js later. just the html code, not the divStringArray variable -- abdul
   const divStringArray = `<div>
                 <label for="facilities">Choose a facility</label>
                 <select id="governors" name="governors">
                     ${optionsHTML}
                 </select>
             </div>`;
-  document.body.innerHTML = divStringArray;
-  // create event listener to invoke the handleTargetGovernorChange
-  document.getElementById("facilities");
+
   document.addEventListener("change", handleFacilityChange);
   return divStringArray;
 };

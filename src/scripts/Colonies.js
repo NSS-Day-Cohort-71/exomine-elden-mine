@@ -1,7 +1,7 @@
-import { getColonies } from './managers/colonies.js';
-import { getGovernors } from './managers/governors.js';
-
-export async function displayAllColonies() {
+import { getColonies } from '../managers/getColonies.js';
+import { getGovernors } from '../managers/getGovernors.js';
+// Function to display all colonies
+export async function coloniesSelector() {
     const colonies = await getColonies();
     const governors = await getGovernors();
 
@@ -14,7 +14,7 @@ export async function displayAllColonies() {
                 <label for="governorSelect${colony.id}">Change Governor:</label>
                 <select id="governorSelect${colony.id}" class="governor-select">
                     ${governors.map(gov => `
-                        <option value="${gov.colonyId}" ${gov.colonyId === colony.id ? 'selected' : ''}>${gov.name}</option>
+                        <option value="${gov.id}" ${gov.colonyId === colony.id ? 'selected' : ''}>${gov.name}</option>
                     `).join('')}
                 </select>
             </div>
@@ -29,11 +29,10 @@ export async function displayAllColonies() {
     });
 }
 
-
+// Function to handle governor change
 async function handleTargetGovernorChange(event) {
-    const selectElement = event.target.value;
-    const colonyElement = selectElement.closest('.colony');
-    const colonyId = colonyElement.dataset.colonyId;
+    const selectElement = event.target;
+    const colonyId = selectElement.closest('.colony').dataset.colonyId;
     const newGovernorId = selectElement.value;
 
     await fetch(`/api/colonies/${colonyId}/governor`, {
@@ -45,16 +44,12 @@ async function handleTargetGovernorChange(event) {
     });
 
     console.log(`Governor for colony ${colonyId} changed to ${newGovernorId}`);
+
+    // Optionally update the UI if needed
+    await coloniesSelector(); // Re-display colonies to reflect the change
 }
 
-// Initial call to display all colonies
-displayAllColonies();
-// create export async function to display all colonies
-
-// fetch all colonies & governors
-
-// map colonies and add html template strings, then join
-
-// create handleTargetGovernorChange function
-
-// create event listener to invoke the handleTargetGovernorChange
+// Ensure the DOM is fully loaded before running the script
+document.addEventListener('DOMContentLoaded', () => {
+    coloniesSelector();
+});

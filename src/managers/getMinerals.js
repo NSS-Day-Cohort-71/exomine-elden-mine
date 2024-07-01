@@ -6,7 +6,7 @@ export const getMinerals = async () => {
 
 export const getColonyMinerals = async () => {
   const response = await fetch(
-    "http://localhost:8088/colonyMinerals?&_expand=colony"
+    "http://localhost:8088/colonyMinerals?&_expand=colony&_expand=mineral"
   );
   const data = await response.json();
   return data;

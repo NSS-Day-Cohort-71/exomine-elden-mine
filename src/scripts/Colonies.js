@@ -1,6 +1,6 @@
 import { getColonies } from "../managers/getColonies.js";
 import { getGovernors } from "../managers/getGovernors.js";
-// import { getColonyMinerals } from '../managers/getMinerals.js';
+import { renderColonyMinerals } from "./Minerals.js";
 
 // Function to display the colony based on the selected governor
 export async function ColonySelector(governorId) {
@@ -14,10 +14,7 @@ export async function ColonySelector(governorId) {
 
   const selectedGovernor = governors.find((gov) => gov.id === governorId);
 
-  // this is for michael to start on Monday
-  // need to use selectedGovernor.colonyId to find the colony to pass to colonyMinerals
-  // const colonyMinerals = await getColonyMinerals();
-  // then invoke the renderGovernorMinerals function to display the minerals for the selected governor/colony
+  const colonyMineralsHtml = await renderColonyMinerals(selectedGovernor);
 
   if (!selectedGovernor) {
     console.error("No governor found with ID:", governorId);
@@ -31,6 +28,7 @@ export async function ColonySelector(governorId) {
             <h3>${colony.name}</h3>
             <p>Governor: ${selectedGovernor.name}</p>
         </div>
+        <div id="colony-minerals">${colonyMineralsHtml}</div>
     `
     : "<p>No colony found for the selected governor.</p>";
 

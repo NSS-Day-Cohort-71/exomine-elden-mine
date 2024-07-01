@@ -32,7 +32,7 @@ header {
 }
 
 .logo {
-    width: 10%; /* Adjust the logo size */
+    width: 12%; /* Adjust the logo size */
     height: auto;
 }
 
@@ -102,7 +102,7 @@ select {
 
 .colony {
     padding: 20px;
-    background-color: rgba(255, 105, 180, 0.9); /* Hot pink background */
+    background-color: rgba(70, 130, 180, 0.9);
     border: 1px solid #cccccc;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);

@@ -1,46 +1,66 @@
-// import getGovernors from managers folder
-
-import { getGovernors } from "../managers/getGovernors.js"
-import { setGovernor } from "./TransientState.js"
+import { getGovernors } from "../managers/getGovernors.js";
+import { setGovernor } from "./TransientState.js";
+import { renderColonyMinerals } from "./Minerals.js";
 
 // Create export async function to display all governors
 export const governorChoices = async () => {
-    const governors = await getGovernors()
-    
-    let optionsHTML = governors.map(
-        (governor) => {
-            return `<option value="${governor.id}">${governor.name}</option>`
-        }).join("")
+  const governors = await getGovernors();
 
-    const divStringArray = 
-         `<div>
-            <label for="governors">Choose a governor</label>
-            <select id="governors" name="governors">
-                ${optionsHTML}
-            </select>
-        </div>`
+  let optionsHTML = governors
+    .map((governor) => {
+      return `<option value="${governor.id}">${governor.name}</option>`;
+    })
+    .join("");
 
-        document.body.innerHTML = divStringArray
+  const dropdownHtml = `
+    <div>
+        <label for="governors">Choose a governor:</label>
+        <select id="governors" name="governors">
+            <option value="">Select a governor</option>
+            ${optionsHTML}
+        </select>
+    </div>
+  `;
 
-        document.getElementById('governors')
-        document.addEventListener("change", handleGovChange)
+  const governorDropdownContainer = document.getElementById(
+    "governorDropdownContainer"
+  );
+  if (governorDropdownContainer) {
+    governorDropdownContainer.innerHTML = dropdownHtml;
+  } else {
+    console.error("Element with ID governorDropdownContainer not found.");
+    return;
+  }
 
-    return divStringArray;
+  document
+    .getElementById("governors")
+    .addEventListener("change", handleGovChange);
 
-// fetch all governors
+  return dropdownHtml;
+};
 
-// map governors and add html template strings, then join
-// create dropdown menu for the governors
-// when a governor is chosen, display all of the related-colony's minerals
+const handleGovChange = async (changeEvent) => {
+  if (changeEvent.target.name === "governors") {
+    const governorId = parseInt(changeEvent.target.value);
+    await setGovernor(governorId);
 
-// create handleTargetGovernorChange function
+    const selectedGovernor = (await getGovernors()).find(
+      (gov) => gov.id === governorId
+    );
+    if (selectedGovernor) {
+      const mineralsHTML = await renderColonyMinerals(selectedGovernor);
+      const governorMinerals = document.getElementById("colony-minerals-list");
+      if (governorMinerals) {
+        governorMinerals.innerHTML = mineralsHTML;
+      } else {
+        console.error("Element with ID colony-minerals-list not found.");
+      }
 
-// create event listener to invoke the handleTargetGovernorChange
-}
-
-const handleGovChange = (changeEvent) => {
-    if (changeEvent.target.name === 'governor') {
-        const convertedToInteger = parseInt(changeEvent.target.value)
-        setGovernor(convertedToInteger)
+      document.dispatchEvent(
+        new CustomEvent("governorSelected", {
+          detail: { governorId },
+        })
+      );
     }
-}
+  }
+};

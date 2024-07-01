@@ -11,8 +11,9 @@ export const facilityChoices = async () => {
     .join("");
 
   const divStringArray = `<div>
-                <label for="facilities">Choose a facility</label>
+                <label for="facilities">Choose a facility:</label>
                 <select id="facilities" name="facilities">
+                <option value="">Select a facility</option>
                     ${optionsHTML}
                 </select>
             </div>`;

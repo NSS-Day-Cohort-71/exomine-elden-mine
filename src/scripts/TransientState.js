@@ -1,10 +1,22 @@
-import { getGovernors } from '../managers/getGovernors.js';
+import { getGovernors } from "../managers/getGovernors.js";
 
 const state = {
   governorId: 0,
   facilityId: 0,
   colonyId: 0,
   mineralId: [],
+};
+
+export const getTransientState = () => {
+  return { ...state };
+};
+
+export const clearTransientState = () => {
+  state.governorId = 0;
+  state.facilityId = 0;
+  state.colonyId = 0;
+  state.mineralId = [];
+  document.dispatchEvent(new CustomEvent("stateChanged"));
 };
 
 export const setFacility = (facilityId) => {

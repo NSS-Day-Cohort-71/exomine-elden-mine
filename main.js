@@ -3,7 +3,6 @@ import { governorChoices } from "./src/scripts/Governors.js";
 
 const render = async () => {
   const containerElement = document.querySelector("#container");
-  const coloniesContainer = document.querySelector("#colonies-container");
 
   // Render form with governors dropdown
   const formHtml = await Form();

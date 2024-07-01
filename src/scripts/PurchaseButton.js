@@ -26,16 +26,9 @@ document.addEventListener("click", async (event) => {
       state.colonyId &&
       state.mineralId.length > 0
     ) {
-      // Iterate over each selected mineral ID.
-      for (const mineralId of state.mineralId) {
-        await purchaseMineral({
-          colonyId: state.colonyId,
-          mineralId: mineralId,
-          quantity: 1, // Placeholder
-        });
-      }
       // Clear the transient state after processing the purchase.
       //clearTransientState();
+
       purchaseMineral(state);
       // Refresh the colonies and facility minerals display.
       document.dispatchEvent(new CustomEvent("stateChanged"));

@@ -48,6 +48,9 @@ header {
     max-height: fit-content;
 }
 
+#colony-minerals{
+    color: white;
+}
 #sidebar {
     font-size: xx-large;
     background-color: rgba(30, 30, 60, 0.9); /* Dark blue/purple */

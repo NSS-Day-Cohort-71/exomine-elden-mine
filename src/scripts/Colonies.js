@@ -27,8 +27,9 @@ export async function ColonySelector(governorId) {
         <div class="colony" data-colony-id="${colony.id}">
             <h3>${colony.name}</h3>
             <p>Governor: ${selectedGovernor.name}</p>
+             <div id="colony-minerals">Minerals:${colonyMineralsHtml}</div>
         </div>
-        <div id="colony-minerals">${colonyMineralsHtml}</div>
+       
     `
     : "<p>No colony found for the selected governor.</p>";
 

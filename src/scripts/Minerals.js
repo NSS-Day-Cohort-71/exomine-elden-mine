@@ -1,15 +1,20 @@
-import { getFacilityMinerals, getMinerals } from "../managers/getMinerals.js";
+import {
+  getColonyMinerals,
+  getFacilityMinerals,
+  getMinerals,
+} from "../managers/getMinerals.js";
 import { setMineral } from "./TransientState.js";
 
 // render the minerals available for when a governor is selected (maybe an exported function for the governors module
-export const renderGovernorMinerals = async (governor) => {
-  const minerals = await getMinerals();
+export const renderColonyMinerals = async (governor) => {
+  const colonyMinerals = await getColonyMinerals(governor.colonyId);
 
-  let html = `<ul class="minerals-governors-list">`;
+  let html = `<ul id="colony-minerals-list" class="minerals-colony-list">`;
 
-  html += minerals
-    .map((mineral) => {
-      return `<li class="mineral-governor-option" data-id="${mineral.id}">${mineral.name}</li>`;
+  html += colonyMinerals
+    .filter((colonyMineral) => colonyMineral.colonyId === governor.colonyId)
+    .map((colonyMineral) => {
+      return `<li class="mineral-colony-option" data-id="${colonyMineral.mineral.id}">${colonyMineral.mineral.name}</li>`;
     })
     .join("");
 

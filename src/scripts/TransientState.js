@@ -19,6 +19,13 @@ export const clearTransientState = () => {
   document.dispatchEvent(new CustomEvent("stateChanged"));
 };
 
+// export const getPurchaseRequirements = () => {
+//   return {
+//     colonyId: state.colonyId,
+//     mineralId: [...state.mineralId],
+//   };
+// };
+
 export const setFacility = (facilityId) => {
   state.facilityId = facilityId;
   document.dispatchEvent(new CustomEvent("stateChanged"));
@@ -53,26 +60,39 @@ const getGovernorById = async (governorId) => {
 };
 
 export const purchaseMineral = async (data) => {
-  const checkResponse = await fetch(
-    `http://localhost:8088/colonyMinerals?colonyId=${data.colonyId}&mineralId=${data.mineralId}`
-  );
-  if (checkResponse.status === 404) {
-    const response = await fetch("http://localhost:8088/colonyMinerals", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    document.dispatchEvent(new CustomEvent("stateChanged"));
-  } else {
-    const response = await fetch("http://localhost:8088/colonyMinerals", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    document.dispatchEvent(new CustomEvent("stateChanged"));
+  // Debugging: Check if data.mineralId is an array
+  console.log("data.mineralId:", data.mineralId);
+
+  if (!Array.isArray(data.mineralId)) {
+    throw new TypeError("data.mineralId is not an array");
   }
+
+  const requests = data.mineralId.map(async (mineralId) => {
+    const checkResponse = await fetch(
+      `http://localhost:8088/colonyMinerals?colonyId=${data.colonyId}&mineralId=${mineralId}`
+    );
+
+    const method = checkResponse.status === 404 ? "POST" : "PUT";
+
+    // possibly Add all 4 properties (key/value pairs)
+    // might possibly need to add specific index for the PUT placement in the URL
+
+    const requestData = {
+      colonyId: data.colonyId,
+      mineralId: mineralId,
+      quantity: 100,
+      // Add other properties if needed such as quantity
+    };
+
+    await fetch("http://localhost:8088/colonyMinerals", {
+      method: method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestData),
+    });
+  });
+
+  await Promise.all(requests);
+  document.dispatchEvent(new CustomEvent("stateChanged"));
 };

@@ -28,7 +28,6 @@ export const governorChoices = async () => {
   if (governorDropdownContainer) {
     governorDropdownContainer.innerHTML = dropdownHtml;
   } else {
-    console.error("Element with ID governorDropdownContainer not found.");
     return;
   }
 
@@ -52,8 +51,6 @@ const handleGovChange = async (changeEvent) => {
       const governorMinerals = document.getElementById("colony-minerals-list");
       if (governorMinerals) {
         governorMinerals.innerHTML = mineralsHTML;
-      } else {
-        console.error("Element with ID colony-minerals-list not found.");
       }
 
       document.dispatchEvent(

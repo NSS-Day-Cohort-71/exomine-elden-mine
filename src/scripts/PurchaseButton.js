@@ -1,8 +1,8 @@
 import {
   //Import the functions from TransientState.js
-  // getTransientState,
+  getTransientState,
   purchaseMineral,
-  // clearTransientState,
+  clearTransientState,
 } from "./TransientState.js";
 
 //Define the PurchaseButton component which returns purchase button HTML.
@@ -35,9 +35,12 @@ document.addEventListener("click", async (event) => {
         });
       }
       // Clear the transient state after processing the purchase.
-      clearTransientState();
+      //clearTransientState();
+      purchaseMineral(state);
+      // Refresh the colonies and facility minerals display.
+      document.dispatchEvent(new CustomEvent("stateChanged"));
     } else {
-      //alert if the required properties are not set.
+      // Alert if the required properties are not set.
       alert("Please select a facility, governor, and minerals.");
     }
   }

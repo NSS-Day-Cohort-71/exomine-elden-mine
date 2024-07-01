@@ -14,7 +14,7 @@ export const renderColonyMinerals = async (governor) => {
   html += colonyMinerals
     .filter((colonyMineral) => colonyMineral.colonyId === governor.colonyId)
     .map((colonyMineral) => {
-      return `<li class="mineral-colony-option" data-id="${colonyMineral.mineral.id}">${colonyMineral.mineral.name}</li>`;
+      return `<li class="mineral-colony-option" data-id="${colonyMineral.mineral.id}">${colonyMineral.quantity} tons of ${colonyMineral.mineral.name}</li>`;
     })
     .join("");
 

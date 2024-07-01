@@ -5,7 +5,6 @@ import { renderColonyMinerals } from "./Minerals.js";
 // Function to display the colony based on the selected governor
 export async function ColonySelector(governorId) {
   if (!governorId) {
-    console.error("No governor ID provided.");
     return "<p>No colony found for the selected governor.</p>";
   }
 

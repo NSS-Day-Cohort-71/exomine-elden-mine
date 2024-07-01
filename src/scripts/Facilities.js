@@ -42,3 +42,5 @@ const handleFacilityChange = (changeEvent) => {
 
 // depending on dropdown choice, display facility minerals in a separate div as radio buttons
 
+
+

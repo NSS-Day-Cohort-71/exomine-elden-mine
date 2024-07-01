@@ -35,8 +35,8 @@ document.addEventListener("click", async (event) => {
         });
       }
       // Clear the transient state after processing the purchase.
-      clearTransientState();
-
+      //clearTransientState();
+      purchaseMineral(state);
       // Refresh the colonies and facility minerals display.
       document.dispatchEvent(new CustomEvent("stateChanged"));
     } else {

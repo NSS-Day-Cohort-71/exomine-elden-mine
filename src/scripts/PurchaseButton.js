@@ -24,7 +24,8 @@ document.addEventListener("click", async (event) => {
       state.facilityId &&
       state.governorId &&
       state.colonyId &&
-      state.mineralId.length > 0
+      state.mineralId.length > 0 &&
+      state.quantity > 0
     ) {
       // Clear the transient state after processing the purchase.
       //clearTransientState();

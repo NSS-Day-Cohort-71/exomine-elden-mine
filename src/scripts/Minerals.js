@@ -3,7 +3,7 @@ import {
   getFacilityMinerals,
   getMinerals,
 } from "../managers/getMinerals.js";
-import { setMineral } from "./TransientState.js";
+import { setMineral, setQuantity } from "./TransientState.js";
 
 // render the minerals available for when a governor is selected (maybe an exported function for the governors module
 export const renderColonyMinerals = async (governor) => {
@@ -14,7 +14,7 @@ export const renderColonyMinerals = async (governor) => {
   html += colonyMinerals
     .filter((colonyMineral) => colonyMineral.colonyId === governor.colonyId)
     .map((colonyMineral) => {
-      return `<li class="mineral-colony-option" data-id="${colonyMineral.mineral.id}">${colonyMineral.quantity} tons of ${colonyMineral.mineral.name}</li>`;
+      return `<li class="mineral-colony-option" data-id="${colonyMineral.mineral.id}" data-quantity="${colonyMineral.quantity}">${colonyMineral.quantity} tons of ${colonyMineral.mineral.name}</li>`;
     })
     .join("");
 
@@ -36,8 +36,8 @@ export const renderFacilityMinerals = async (facility) => {
     .map((facilityMineral) => {
       return `
           <p>
-            <input type="radio" id="mineral-${facilityMineral.id}" name="facility-mineral" class="mineral-facility-option" value="${facilityMineral.id}" data-id="${facilityMineral.id}">
-            <label for="mineral-${facilityMineral.mineral.id}">${facilityMineral.mineralQuantity} tons of ${facilityMineral.mineral.name}</label>
+            <input type="radio" id="mineral-${facilityMineral.id}" name="facility-mineral" class="mineral-facility-option" value="${facilityMineral.id}" data-id="${facilityMineral.id}" data-quantity="${facilityMineral.mineralQuantity}">
+            <label for="mineral-${facilityMineral.mineral.id}" data-id="${facilityMineral.id}" data-quantity="${facilityMineral.mineralQuantity}">${facilityMineral.mineralQuantity} tons of ${facilityMineral.mineral.name}</label>
           </p>`;
     })
     .join("");
@@ -51,7 +51,9 @@ export const renderFacilityMinerals = async (facility) => {
 export const handleTargetMineralChange = async (changeEvent) => {
   if (changeEvent.target.name === "facility-mineral") {
     const mineralId = parseInt(changeEvent.target.value);
+    const quantity = parseInt(changeEvent.target.dataset.quantity);
     setMineral(mineralId, changeEvent.target.checked);
+    setQuantity(quantity);
   }
 };
 

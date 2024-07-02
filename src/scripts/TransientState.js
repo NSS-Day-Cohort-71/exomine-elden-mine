@@ -89,6 +89,7 @@ export const purchaseMineral = async (data) => {
         },
         body: JSON.stringify(requestData),
       });
+      console.log("POST");
     } else {
       // PUT request (update existing resource)
       const existingResource = existingResources[0];
@@ -111,6 +112,7 @@ export const purchaseMineral = async (data) => {
       );
     }
   });
+  console.log("PUT");
 
   await Promise.all(requests);
   document.dispatchEvent(new CustomEvent("stateChanged"));

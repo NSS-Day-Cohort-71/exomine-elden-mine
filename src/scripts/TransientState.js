@@ -60,37 +60,49 @@ const getGovernorById = async (governorId) => {
 };
 
 export const purchaseMineral = async (data) => {
-  // Debugging: Check if data.mineralId is an array
-  console.log("data.mineralId:", data.mineralId);
-
-  if (!Array.isArray(data.mineralId)) {
-    throw new TypeError("data.mineralId is not an array");
-  }
-
   const requests = data.mineralId.map(async (mineralId) => {
     const checkResponse = await fetch(
       `http://localhost:8088/colonyMinerals?colonyId=${data.colonyId}&mineralId=${mineralId}`
     );
 
-    const method = checkResponse.status === 404 ? "POST" : "PUT";
+    const existingResources = await checkResponse.json();
 
-    // possibly Add all 4 properties (key/value pairs)
-    // might possibly need to add specific index for the PUT placement in the URL
+    if (existingResources.length === 0) {
+      // POST request (create new resource)
+      const requestData = {
+        colonyId: data.colonyId,
+        mineralId: mineralId,
+        quantity: data.quantity,
+      };
 
-    const requestData = {
-      colonyId: data.colonyId,
-      mineralId: mineralId,
-      quantity: 100,
-      // Add other properties if needed such as quantity
-    };
+      await fetch("http://localhost:8088/colonyMinerals", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData),
+      });
+    } else {
+      // PUT request (update existing resource)
+      const existingResource = existingResources[0];
+      const requestData = {
+        id: existingResource.id,
+        colonyId: data.colonyId,
+        mineralId: mineralId,
+        quantity: existingResource.quantity + data.quantity,
+      };
 
-    await fetch("http://localhost:8088/colonyMinerals", {
-      method: method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(requestData),
-    });
+      await fetch(
+        `http://localhost:8088/colonyMinerals/${existingResource.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestData),
+        }
+      );
+    }
   });
 
   await Promise.all(requests);

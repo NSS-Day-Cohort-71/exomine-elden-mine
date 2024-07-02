@@ -5,6 +5,7 @@ const state = {
   facilityId: 0,
   colonyId: 0,
   mineralId: [],
+  quantity: 0,
 };
 
 export const getTransientState = () => {
@@ -16,6 +17,7 @@ export const clearTransientState = () => {
   state.facilityId = 0;
   state.colonyId = 0;
   state.mineralId = [];
+  state.quantity = 0;
   document.dispatchEvent(new CustomEvent("stateChanged"));
 };
 
@@ -57,6 +59,11 @@ export const setMineral = (mineralId, isChecked) => {
 const getGovernorById = async (governorId) => {
   const governors = await getGovernors();
   return governors.find((governor) => governor.id === governorId);
+};
+
+export const setQuantity = (quantity) => {
+  state.quantity = parseInt(quantity); // Convert to integer
+  document.dispatchEvent(new CustomEvent("stateChanged"));
 };
 
 export const purchaseMineral = async (data) => {

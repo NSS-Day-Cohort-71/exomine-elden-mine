@@ -36,7 +36,7 @@ export const renderFacilityMinerals = async (facility) => {
     .map((facilityMineral) => {
       return `
           <p>
-            <input type="radio" id="mineral-${facilityMineral.id}" name="facility-mineral" class="mineral-facility-option" value="${facilityMineral.id}" data-id="${facilityMineral.id}" data-quantity="${facilityMineral.mineralQuantity}">
+            <input type="radio" id="mineral-${facilityMineral.id}" name="facility-mineral" class="mineral-facility-option" value="${facilityMineral.mineral.id}" data-id="${facilityMineral.mineral.id}" data-quantity="${facilityMineral.mineralQuantity}">
             <label for="mineral-${facilityMineral.mineral.id}" data-id="${facilityMineral.id}" data-quantity="${facilityMineral.mineralQuantity}">${facilityMineral.mineralQuantity} tons of ${facilityMineral.mineral.name}</label>
           </p>`;
     })

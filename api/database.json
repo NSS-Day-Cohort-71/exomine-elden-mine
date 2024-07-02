@@ -93,7 +93,7 @@
       "id": 1,
       "colonyId": 1,
       "mineralId": 1,
-      "quantity": 3000
+      "quantity": 5100
     },
     {
       "id": 2,
@@ -154,6 +154,12 @@
       "mineralId": 3,
       "quantity": 100,
       "id": 11
+    },
+    {
+      "colonyId": 1,
+      "mineralId": 4,
+      "quantity": 100,
+      "id": 12
     }
   ],
   "minerals": [

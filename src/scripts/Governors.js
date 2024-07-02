@@ -7,6 +7,7 @@ export const governorChoices = async () => {
   const governors = await getGovernors();
 
   let optionsHTML = governors
+    .filter((governor) => governor.active === true)
     .map((governor) => {
       return `<option value="${governor.id}">${governor.name}</option>`;
     })

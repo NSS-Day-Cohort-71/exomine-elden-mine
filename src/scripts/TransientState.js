@@ -66,6 +66,40 @@ export const setQuantity = (quantity) => {
   document.dispatchEvent(new CustomEvent("stateChanged"));
 };
 
+const removeQuantity = async (data) => {
+  const requests = data.mineralId.map(async (mineralId) => {
+    const checkResponse = await fetch(
+      `http://localhost:8088/facilityMinerals?facilityId=${data.facilityId}&mineralId=${mineralId}`
+    );
+
+    const existingResources = await checkResponse.json();
+
+    if (existingResources.length > 0) {
+      const existingResource = existingResources[0];
+      const requestData = {
+        id: existingResource.id,
+        facilityId: data.facilityId,
+        mineralId: mineralId,
+        quantity: existingResource.mineralQuantity - data.quantity,
+      };
+
+      await fetch(
+        `http://localhost:8088/facilityMinerals/${existingResource.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestData),
+        }
+      );
+    }
+  });
+
+  await Promise.all(requests);
+  document.dispatchEvent(new CustomEvent("stateChanged"));
+};
+
 export const purchaseMineral = async (data) => {
   const requests = data.mineralId.map(async (mineralId) => {
     const checkResponse = await fetch(
@@ -111,6 +145,8 @@ export const purchaseMineral = async (data) => {
       );
     }
   });
+
+  await removeQuantity(data);
 
   await Promise.all(requests);
   document.dispatchEvent(new CustomEvent("stateChanged"));

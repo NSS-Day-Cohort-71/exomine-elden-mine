@@ -32,7 +32,7 @@ const updateSpaceCart = () => {
   if (state.mineralId.length > 0) {
     // Create the HTML for each mineral item
     state.mineralId.forEach((mineral) => {
-      spaceCartItemsElement.innerHTML += `<p>${mineral.quantity} tons of ${mineral.name}</p>`;
+      spaceCartItemsElement.innerHTML += `<p>${mineral.quantity} ton of ${mineral.name}</p>`;
     });
   } else {
     // If the cart is empty

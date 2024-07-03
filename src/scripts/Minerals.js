@@ -38,11 +38,11 @@ export const renderFacilityMinerals = async (facility) => {
   html += facilityMinerals
     .filter((facilityMineral) => facilityMineral.facilityId === facility.id)
     .map((facilityMineral) => {
-      if (facilityMineral.mineralQuantity > 0) {
+      if (facilityMineral.quantity > 0) {
         return `
           <p>
-            <input type="radio" id="mineral-${facilityMineral.id}" name="facility-mineral" class="mineral-facility-option" value="${facilityMineral.mineral.id}" data-id="${facilityMineral.mineral.id}" data-quantity="${facilityMineral.mineralQuantity}">
-            <label for="mineral-${facilityMineral.mineral.id}" data-id="${facilityMineral.id}" data-quantity="${facilityMineral.mineralQuantity}">${facilityMineral.mineralQuantity} tons of ${facilityMineral.mineral.name}</label>
+            <input type="radio" id="mineral-${facilityMineral.id}" name="facility-mineral" class="mineral-facility-option" value="${facilityMineral.mineral.id}" data-id="${facilityMineral.mineral.id}" data-quantity="1">
+            <label for="mineral-${facilityMineral.mineral.id}" data-id="${facilityMineral.id}" data-quantity="${facilityMineral.quantity}">${facilityMineral.quantity} tons of ${facilityMineral.mineral.name}</label>
           </p>`;
       } else {
         return "";

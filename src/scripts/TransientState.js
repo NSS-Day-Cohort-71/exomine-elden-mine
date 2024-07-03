@@ -75,8 +75,9 @@ const removeQuantity = async (data) => {
       const requestData = {
         id: existingResource.id,
         facilityId: data.facilityId,
-        mineralId: mineralObject.id,
-        quantity: existingResource.mineralQuantity - data.quantity,
+        // mineralId: mineralObject.id,
+        mineralId: existingResource.mineralId,
+        quantity: existingResource.quantity - 1,
       };
 
       await fetch(
@@ -127,7 +128,7 @@ export const purchaseMineral = async (data) => {
         id: existingResource.id,
         colonyId: data.colonyId,
         mineralId: mineral.id,
-        quantity: existingResource.quantity + mineral.quantity,
+        quantity: existingResource.quantity + 1,
       };
 
       await fetch(

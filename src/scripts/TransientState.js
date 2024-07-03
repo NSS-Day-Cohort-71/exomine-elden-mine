@@ -1,10 +1,11 @@
 import { getGovernors } from "../managers/getGovernors.js";
+import { getMinerals } from "../managers/getMinerals.js";
 
 const state = {
   governorId: 0,
   facilityId: 0,
   colonyId: 0,
-  mineralId: [],
+  mineralId: [], // Now this will be an array of objects { id: mineralId, quantity: mineralQuantity, name: mineralName }
   quantity: 0,
 };
 
@@ -20,13 +21,6 @@ export const clearTransientState = () => {
   state.quantity = 0;
   document.dispatchEvent(new CustomEvent("stateChanged"));
 };
-
-// export const getPurchaseRequirements = () => {
-//   return {
-//     colonyId: state.colonyId,
-//     mineralId: [...state.mineralId],
-//   };
-// };
 
 export const setFacility = (facilityId) => {
   state.facilityId = facilityId;
@@ -47,11 +41,13 @@ export const setColony = (colonyId) => {
   document.dispatchEvent(new CustomEvent("stateChanged"));
 };
 
-export const setMineral = (mineralId, isChecked) => {
+export const setMineral = (mineralId, quantity, name, isChecked) => {
   if (isChecked) {
-    state.mineralId.push(mineralId);
+    state.mineralId.push({ id: mineralId, quantity, name });
   } else {
-    state.mineralId = state.mineralId.filter((id) => id != mineralId);
+    state.mineralId = state.mineralId.filter(
+      (mineral) => mineral.id !== mineralId
+    );
   }
   document.dispatchEvent(new CustomEvent("stateChanged"));
 };
@@ -67,9 +63,10 @@ export const setQuantity = (quantity) => {
 };
 
 export const purchaseMineral = async (data) => {
-  const requests = data.mineralId.map(async (mineralId) => {
+  const requests = data.mineralId.map(async (mineral) => {
+    // mineral is an object { id, quantity, name }
     const checkResponse = await fetch(
-      `http://localhost:8088/colonyMinerals?colonyId=${data.colonyId}&mineralId=${mineralId}`
+      `http://localhost:8088/colonyMinerals?colonyId=${data.colonyId}&mineralId=${mineral.id}`
     );
 
     const existingResources = await checkResponse.json();
@@ -78,8 +75,8 @@ export const purchaseMineral = async (data) => {
       // POST request (create new resource)
       const requestData = {
         colonyId: data.colonyId,
-        mineralId: mineralId,
-        quantity: data.quantity,
+        mineralId: mineral.id,
+        quantity: mineral.quantity,
       };
 
       await fetch("http://localhost:8088/colonyMinerals", {
@@ -95,8 +92,8 @@ export const purchaseMineral = async (data) => {
       const requestData = {
         id: existingResource.id,
         colonyId: data.colonyId,
-        mineralId: mineralId,
-        quantity: existingResource.quantity + data.quantity,
+        mineralId: mineral.id,
+        quantity: existingResource.quantity + mineral.quantity,
       };
 
       await fetch(
@@ -115,3 +112,20 @@ export const purchaseMineral = async (data) => {
   await Promise.all(requests);
   document.dispatchEvent(new CustomEvent("stateChanged"));
 };
+
+export const updateSpaceCart = async () => {
+  const state = getTransientState();
+  const spaceCartItems = document.querySelector("#spaceCartItems");
+  if (spaceCartItems) {
+    const minerals = await getMinerals();
+    spaceCartItems.innerHTML = state.mineralId
+      .map((mineral) => {
+        const mineralDetails = minerals.find((m) => m.id === mineral.id);
+        const mineralName = mineralDetails ? mineralDetails.name : "undefined";
+        return `<p>${mineral.quantity} tons of ${mineralName}</p>`;
+      })
+      .join("");
+  }
+};
+
+document.addEventListener("stateChanged", updateSpaceCart);

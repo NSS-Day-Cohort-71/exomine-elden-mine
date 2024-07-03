@@ -63,9 +63,9 @@ export const setQuantity = (quantity) => {
 };
 
 const removeQuantity = async (data) => {
-  const requests = data.mineralId.map(async (mineralId) => {
+  const requests = data.mineralId.map(async (mineralObject) => {
     const checkResponse = await fetch(
-      `http://localhost:8088/facilityMinerals?facilityId=${data.facilityId}&mineralId=${mineralId}`
+      `http://localhost:8088/facilityMinerals?facilityId=${data.facilityId}&mineralId=${mineralObject.id}`
     );
 
     const existingResources = await checkResponse.json();
@@ -75,7 +75,7 @@ const removeQuantity = async (data) => {
       const requestData = {
         id: existingResource.id,
         facilityId: data.facilityId,
-        mineralId: mineralId,
+        mineralId: mineralObject.id,
         quantity: existingResource.mineralQuantity - data.quantity,
       };
 

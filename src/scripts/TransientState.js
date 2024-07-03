@@ -14,9 +14,9 @@ export const getTransientState = () => {
 };
 
 export const clearTransientState = () => {
-  state.governorId = 0;
-  state.facilityId = 0;
-  state.colonyId = 0;
+  // state.governorId = 0;
+  // state.facilityId = 0;
+  // state.colonyId = 0;
   state.mineralId = [];
   state.quantity = 0;
   document.dispatchEvent(new CustomEvent("stateChanged"));

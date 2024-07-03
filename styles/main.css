@@ -148,20 +148,15 @@ select {
   color: #ffffff; /* White text for contrast */
 }
 
-#spaceCartContainer {
-  padding: 20px;
+
+
+#spaceCart {
+  padding: 15px;
   background-color: rgba(70, 130, 180, 0.9); /* Steel blue background */
   border: 1px solid #cccccc;
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  color: #43b2c6; /* White text for contrast */
-}
-
-#spaceCart h2 {
-  margin: 0;
   color: white; /* White text for contrast */
-  padding: 10px;
-  border-radius: 10px;
 }
 
 button {

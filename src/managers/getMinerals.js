@@ -19,3 +19,10 @@ export const getFacilityMinerals = async () => {
   const data = await response.json();
   return data;
 };
+
+// Function to fetch a mineral by its ID
+// export const getMineralById = async (mineralId) => {
+//   const response = await fetch(`http://localhost:8088/minerals/${mineralId}`);
+//   const data = await response.json();
+//   return data;
+// };

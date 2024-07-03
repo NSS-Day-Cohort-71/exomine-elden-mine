@@ -1,7 +1,6 @@
-// import statements
-import { governorChoices } from "./Governors.js";
 import { ColonySelector } from "./Colonies.js";
 import { facilityChoices } from "./Facilities.js";
+import { governorChoices } from "./Governors.js";
 import { PurchaseButton } from "./PurchaseButton.js";
 // Export async function for rendering the HTML
 export const Form = async () => {
@@ -20,4 +19,3 @@ export const Form = async () => {
       </div>
     `;
 };
-    
